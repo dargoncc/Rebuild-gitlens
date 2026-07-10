@@ -92,12 +92,6 @@ jobs:
                       fi
                   done
 
-            - name: Code formating
-              if: steps.check_tag.outputs.exists == 'false'
-              run: |
-                  pnpm install --save-dev -w prettier @prettier/plugin-oxc
-                  npx prettier --write src/plus/gk/utils/checkin.utils.ts
-
             - name: Remove source-repo
               if: steps.check_tag.outputs.exists == 'false'
               run: |
@@ -106,6 +100,10 @@ jobs:
             - name: Install dependencies
               if: steps.check_tag.outputs.exists == 'false'
               run: pnpm install
+
+            - name: Fix formatting with oxfmt
+              if: steps.check_tag.outputs.exists == 'false'
+              run: npx --yes oxfmt --write src/plus/gk/utils/checkin.utils.ts
 
             - name: Package extension
               if: steps.check_tag.outputs.exists == 'false'
